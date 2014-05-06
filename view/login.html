@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html> 
+<head> 
+<title>Second Page - VIDEO</title> 
+<link rel="stylesheet"type ="text/css" href="../css/style-main.css">
+</head>
+
+<body> 
+
+<div class="right">
+	<h2>Login </h2>
+	<p>
+		<form name="loginForm" action="../controller/loginCheck.html" method="post">
+			<table border=0 align="center">
+				<tr>
+					<td>Student ID :</td> <td><input type="text" name="id"></td>
+				</tr>
+				<tr>	
+					<td>Password :</td> <td><input type="password" name="pw"></td>
+				</tr>
+			</table>
+			<input type="button" value="sign in" onClick="login_check()">
+			<input type="button" value="register" onclick="window.open('regist.php','vv')">
+		</form>
+	</p>
+	<script>
+	function login_check() 
+	{
+		var f = document.loginForm;
+
+		if(f.id.value ==  "") {
+			alert ("ID를 입력해주세요.");
+			return false;
+		}
+		f.submit()
+	}
+	</script>
+</div>
+</html>

@@ -1,0 +1,22 @@
+<?php
+include "../controller/conn.html";
+?>
+<?
+
+if(trim($_POST['id'] == "")) {
+	alert("ID를 입력해주세요.!");
+}
+
+$chk_sql = "select * from member_info where stuID = '".trim($_POST['id'])."'";
+$chk_result = mysql_query($chk_sql);
+$chk_data = mysql_fetch_array($chk_result);
+
+
+if($chk_data['stuID']) {
+	$_SESSION['stuID'] = $chk_data['stuID']; 
+	alert("환영합니다.", "../controller/main.html");
+} else {
+	alert("존재하지 않는 아이디입니다.");
+}
+
+?>

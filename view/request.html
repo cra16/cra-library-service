@@ -1,0 +1,66 @@
+<?include "../controller/conn.html";?>
+<div class="right">
+<?
+if ( !$_GET )
+{
+	$display = <<<EOF
+<form action="../view/request.html" method="get">
+<h1>Book Request</h1>
+<table width="500" align="center">
+	<tbody>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Applicant</td>
+			<td><input type="TEXT" name="aName"></td>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Title</td>
+			<td><input type="TEXT" name="bName"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Author</td>
+			<td><input type="TEXT" name="bAuthor"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Publisher</td>
+			<td><input type="TEXT" name="bPub"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Reason</td>
+			<td><textarea rows="5" clols="30" name="reason"></textarea></td>
+		</tr>
+	</tbody>
+</table>
+<span>
+	<input type="button" value="return" onclick="history.back(); return false;">
+	<input type="submit" value="request">
+</span>
+</form>
+<script>
+function 
+EOF;
+}
+else
+{
+	$aName = $_GET["aName"];
+	$bName = $_GET["bName"];
+	$bAuthor = $_GET["bAuthor"];
+	$bPub = $_GET["bPub"];
+	$reason = $_GET["reason"];
+	
+	$query = "INSERT INTO requestBook (applicant, title, author, publisher, reason) 
+	VALUES ('".$aName."','".$bName."','".$bAuthor."','".$bPub."', '".$reason."')";
+	mysql_query($query);
+	
+	
+	echo "<script>alert(\"Successfully requested!\");</script>";
+	
+	$display = <<<EOF
+	<script>
+	location.replace("../controller/fourth.html");
+	</script>
+EOF;
+}
+
+mysql_close($mysql);
+echo $display;
+?>	
+</div>

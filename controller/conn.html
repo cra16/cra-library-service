@@ -1,0 +1,31 @@
+<?session_start();?>
+<?php
+
+function sql_connect() {
+	$con = mysql_connect("localhost", "hye", "1234");
+	if(!$con)
+	{
+		die('Could not conncet: '.mysql_error());
+	}
+
+	mysql_select_db("dbcra", $con);
+	mysql_query('set names utf8');
+
+}
+
+function alert($msg = '', $url='') {
+	if(!$msg) $msg = '올바른 방법으로 이용해주세요.';
+	echo "<script language='javascript'>alert('$msg');";
+	echo "</script>";
+
+	if($url) {
+		echo "<script language = 'javascript'> location.replace('$url'); </script>";
+	} else {
+		echo "<script language='javascript'> history.back();";
+		echo "</script>";
+	}
+	exit;
+}
+
+$connect = sql_connect();
+?>

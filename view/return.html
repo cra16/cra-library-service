@@ -1,0 +1,75 @@
+<?php
+include "../controller/conn.html";?>
+
+
+<div class="right">
+	<h1>RETURN</h1>
+	<hr/>
+
+	<?php
+
+	$stuID = $_SESSION['stuID'];
+	$result = mysql_query("SELECT * FROM member_rentalInfo WHERE stuID = $stuID");
+
+	//$result = mysql_query("SELECT * FROM member_rental WHERE stuID = $stuID AND isReturned = 'N'");
+?>
+	<table border='1' cellpadding='5'>
+
+		<thead>
+			<tr>
+				<th>INDEX</th>
+				<th>책 이름</th>
+				<th>저자</th>
+				<th>대출일</th>
+				<th>반납예정일</th>
+				<th>연체여부</th>
+				<th>반납하기</th>
+			</tr>
+		</thead>
+
+
+<?
+	echo <<<EOF
+			<script>
+			function bookReturn(bookID) {
+				var ret = confirm('책 반납할거임?');
+				
+				if (ret == true) {
+					location.href="../model/delete.php?bookID=" + bookID;
+				} else {
+					alert('반납 실패.');
+				}
+			}
+		</script>
+EOF;
+	
+	$i = 1;
+	while($row = mysql_fetch_array($result)) {
+		/*$bID = $row['bookID'];
+		$result2 = mysql_query("SELECT bName, bAuthor FROM book_info WHERE bookID = '$bID'");
+		$row2 = mysql_fetch_array($result2);*/
+
+		echo "<tr>";
+			echo "<td>" .$i++. "</td>";
+			echo "<td width='400'><a href=''>".$row['bName']."</a></td>";
+			echo "<td><a href=''>".$row['bAuthor']."</a></td>";
+			echo "<td width='80'>".$row['bDate']."</td>";
+			echo "<td width='80'>".$row['dDate']."</td>";
+			echo "<td>".$row['isDelayed']."</td>";
+			echo "
+				<td>
+					<input type='button' value='반납' onclick=bookReturn(".$row['bookID'].")>
+				</td>
+			";
+			
+		echo "</tr>";
+	}
+
+	echo"</table>";
+
+	mysql_close($con);
+
+
+
+	?>
+</div>

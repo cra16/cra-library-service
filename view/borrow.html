@@ -1,0 +1,66 @@
+<?php
+include "../controller/conn.html";
+?>
+
+
+<div class="right">
+
+	<h1>BORROW Service</h1>
+	<form name="search" action="../controller/viewsearch.html" method="get">
+		<label> 도서 검색: </label> <input type="text" name="keyword" /> <input
+			type="submit" value="search">
+	</form>
+	<hr />
+
+	<?php
+
+	$result = mysql_query("SELECT * FROM book_info");
+
+	echo "<table border='1' cellpadding='5'>
+
+	<thead>
+	<tr>
+	<th>INDEX</th>
+	<th>책 이름</th>
+	<th>저자</th>
+	<th>출판사</th>
+	<th>출판연도</th>
+	<th>분류</th>
+	<th>대여하기</th>
+	</tr>
+	</thead>";
+	$i = 1;
+	while($row = mysql_fetch_array($result)) {
+
+		
+		$borrowing = $row['bookID'];
+		$result2 = mysql_query("SELECT * FROM status where bookID = $borrowing");
+		$row2 = mysql_fetch_array($result2);
+
+		echo "<tr>";
+		echo "<td>" .$i++. "</td>";
+		echo "<td width='400'>".$row['bName']."</td>";
+		echo "<td><a href='../controller/author.html?bAuthor=".$row['bAuthor']."'>".$row['bAuthor']."</a></td>";
+		echo "<td>".$row['bPub']."</td>";
+		echo "<td width='100'>".$row['bYear']."</td>";
+		echo "<td width='100'>".$row['bGenre']."</td>";
+		if($row2 == true)
+		{
+			echo "<td> <input type='submit' value='대여' disabled> </td>";
+		}
+		else {
+			echo "<td>
+					<form action='../controller/insert.php' id='insertForm".$row['bookID']."' method='post'>
+						<input type='hidden' name='bookID' value='".$row['bookID']."'>
+						<input type='submit' value='대여'>
+					</form>
+				</td>";
+			}
+
+		echo "</tr>";
+	}
+
+	echo"</table>";
+
+	?>
+</div>

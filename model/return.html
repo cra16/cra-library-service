@@ -1,0 +1,81 @@
+
+<div class="right">
+	<h1>RETURN</h1>
+	<hr/>
+
+	<?php
+
+
+	$con = mysql_connect("localhost", "hye", "1234");
+	if(!$con)
+	{
+		die('Could not conncet: '.mysql_error());
+	}
+
+	$stuID = 21000676;
+
+	echo "$stuID";
+
+	mysql_select_db("dbcra", $con);
+	$result = mysql_query("SELECT * FROM member_rental WHERE stuID = $stuID AND isReturned = 'N'");
+?>
+	<table border='1' cellpadding='5'>
+
+		<thead>
+			<tr>
+				<th>INDEX</th>
+				<th>책 이름</th>
+				<th>저자</th>
+				<th>대출일</th>
+				<th>반납예정일</th>
+				<th>연체여부</th>
+				<th>반납하기</th>
+			</tr>
+		</thead>
+
+
+<?
+	echo <<<EOF
+			<script>
+			function bookReturn(bookID) {
+				var ret = confirm('책 반납할거임?');
+				
+				if (ret == true) {
+					location.href="../model/delete.php?bookID=" + bookID;
+				} else {
+					alert('반납 실패.');
+				}
+			}
+		</script>
+EOF;
+	
+	$i = 1;
+	while($row = mysql_fetch_array($result)) {
+		$bID = $row['bookID'];
+		$result2 = mysql_query("SELECT bName, bAuthor FROM book_info WHERE bookID = '$bID'");
+		$row2 = mysql_fetch_array($result2);
+
+		echo "<tr>";
+			echo "<td>" .$i++. "</td>";
+			echo "<td width='400'><a href=''>".$row2['bName']."</a></td>";
+			echo "<td><a href=''>".$row2['bAuthor']."</a></td>";
+			echo "<td>".$row['bDate']."</td>";
+			echo "<td width='100'>".$row['dDate']."</td>";
+			echo "<td width='100'>".$row['isDelayed']."</td>";
+			echo "
+				<td>
+					<input type='button' value='반납' onclick=bookReturn(".$row[0].")>
+				</td>
+			";
+			
+		echo "</tr>";
+	}
+
+	echo"</table>";
+
+	mysql_close($con);
+
+
+
+	?>
+</div>

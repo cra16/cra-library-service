@@ -1,0 +1,65 @@
+<?
+include "../controller/conn.html";
+if ( !$_GET )
+{
+	$display = <<<EOF
+<form action="../view/insert.html" method="get">
+<h1>Book Insert</h1>
+<table width="500">
+	<thead bgcolor=F4F4F4>
+		<tr>
+			<th>Book</th>
+			<th>Book Info</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">ISBN</td>
+			<td><input type="TEXT" name="ISBN" size="15"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Title</td>
+			<td><input type="TEXT" name="bName" size="25"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Author</td>
+			<td><input type="TEXT" name="bAuthor"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Publisher</td>
+			<td><input type="TEXT" name="bPub"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Year</td>
+			<td><input type="TEXT" name="bYear"></td>
+		</tr>
+		<tr>
+			<td bgcolor=F4F4F4 align="center">Genre</td>
+			<td><input type="TEXT" name="bGenre"></td>
+		</tr>
+	</tbody>
+</table>
+<span>
+	<input type="button" value="return" onclick="history.back(); return false;">
+	<input type="submit" value="insert">
+</span>
+</form>
+EOF;
+}
+else
+{
+	$ISBN = $_GET["ISBN"];
+	$bName = $_GET["bName"];
+	$bAuthor = $_GET["bAuthor"];
+	$bPub = $_GET["bPub"];
+	$bYear = $_GET["bYear"];
+	$bGenre = $_GET["bGenre"];
+	
+	$query = "INSERT INTO book_info (ISBN, bName, bAuthor, bPub, bYear, bGenre) 
+		VALUES ('".$ISBN."','".$bName."','".$bAuthor."','".$bPub."','".$bYear."','".$bGenre."')";
+	mysql_query($query);
+	
+	mysql_close($mysql);		
+}
+echo $display;
+?>

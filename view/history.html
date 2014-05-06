@@ -1,0 +1,55 @@
+<?php
+include "../controller/conn.html";?>
+
+<div class="right">
+	<h1>My History</h1>
+	<hr/>
+
+	<?php
+
+
+	$stuID = $_SESSION['stuID'];
+
+	echo "<p><h3>".$stuID."님의 대여 기록</h3></p>";
+	$result = mysql_query("SELECT * FROM member_rental WHERE stuID = $stuID ");
+
+	echo "<table border='1' cellpadding='5'>
+
+		<thead>
+			<tr>
+				<th>INDEX</th>
+				<th>책 이름</th>
+				<th>저자</th>
+				<th>대출일</th>
+				<th>반납예정일</th>
+				<th>반납일</th>
+				<th>반납여부</th>
+			</tr>
+		</thead>";
+		$i = 1;
+	while($row = mysql_fetch_array($result)) {
+
+
+		$bID = $row['bookID'];
+		$result2 = mysql_query("SELECT bName, bAuthor FROM book_info WHERE bookID = '$bID'");
+		$row2 = mysql_fetch_array($result2);
+
+		if ($row['isReturned'] == 'N')
+			echo "<tr bgcolor='#FFA07A'>";
+		else
+			echo "<tr>";
+		echo "<td>" .$i++. "</td>";
+		echo "<td width='400'><a href=''>".$row2['bName']."</a></td>";
+		echo "<td><a href=''>".$row2['bAuthor']."</a></td>";
+		echo "<td>".$row['bDate']."</td>";
+		echo "<td width='100'>".$row['dDate']."</td>";
+		echo "<td width='100'>".$row['rDate']."</td>";
+		echo "<td width='100'>".$row['isReturned']."</td>";
+		echo "</tr>";
+	}
+
+	echo"</table>";
+
+
+	?>
+</div>
